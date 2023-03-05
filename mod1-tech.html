@@ -16,19 +16,19 @@
 		</p>
 		<h2>General Code Structure</h2>
 		<p>
-			As with most Arduino code, the <a href="/Module%201/Mod1.ino">Arduino sketch</a> includes <code>setup()</code> and <code>loop()</code> functions. The <code>setup()</code> function simply initializes the display, sets the rotation, fills the screen with white, and sets a random seed using an unused analog pin.
+			As with most Arduino code, the <a href="Module%201/Mod1.ino">Arduino sketch</a> includes <code>setup()</code> and <code>loop()</code> functions. The <code>setup()</code> function simply initializes the display, sets the rotation, fills the screen with white, and sets a random seed using an unused analog pin.
 		</p>
 		<p>
 			The <code>loop()</code> function, however, has the bulk of the functionality. Outside of both of these functions exists an array of structs named <code>song</code> that includes information about each chord and word change. The struct has the following values:
 		</p>
 		<code>
-			String letters; // new word if applicable, "" if just a chord change
-			int chordRoot; // value from 0 to 7 representing the chord root (-1 if no chord change)
-			int chordModifier; // value from 0 to 15 representing the chord quality (-1 if no chord change)
-			int len; // length of this segment in milliseconds
+			String letters; // new word if applicable, "" if just a chord change <br>
+			int chordRoot; // value from 0 to 7 representing the chord root (-1 if no chord change) <br>
+			int chordModifier; // value from 0 to 15 representing the chord quality (-1 if no chord change) <br>
+			int len; // length of this segment in milliseconds <br>
 		</code>
 		<p>
-			Based on which chords and chord types were in the song (see <a href="mod1-art.tech">artistic documentation</a> for more information), the following mappings were created:
+			Based on which chords and chord types were in the song (see <a href="mod1-art-tech.html">artistic documentation</a> for more information), the following mappings were created:
 		</p>
 		<table>
 			<tr>
@@ -89,7 +89,7 @@
 		<h2>Flashing and Running Code</h2>
 		<p>
 			Using the Arduino IDE, clicking the Upload button will send the sketch to the device. The /dev/cu.wchusbserial port should be selected if using MacOS as discussed in the driver link above.
-			<img src="Arduino.png">
+			<img height="100px" src="Arduino.png">
 		</p>
 	</body>
 </html>
