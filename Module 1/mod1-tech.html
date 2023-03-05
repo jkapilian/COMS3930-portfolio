@@ -17,7 +17,7 @@
 		</p>
 		<h2>General Code Structure</h2>
 		<p>
-			As with most Arduino code, the <a href="Module%201/Mod1.ino">Arduino sketch</a> includes <code>setup()</code> and <code>loop()</code> functions. The <code>setup()</code> function simply initializes the display, sets the rotation, fills the screen with white, and sets a random seed using an unused analog pin.
+			As with most Arduino code, the <a href="Mod1.ino">Arduino sketch</a> includes <code>setup()</code> and <code>loop()</code> functions. The <code>setup()</code> function simply initializes the display, sets the rotation, fills the screen with white, and sets a random seed using an unused analog pin.
 		</p>
 		<p>
 			The <code>loop()</code> function, however, has the bulk of the functionality. Outside of both of these functions exists an array of structs named <code>song</code> that includes information about each chord and word change. The struct has the following values:
@@ -29,7 +29,7 @@
 			int len; // length of this segment in milliseconds <br>
 		</code>
 		<p>
-			Based on which chords and chord types were in the song (see <a href="mod1-art-tech.html">artistic documentation</a> for more information), the following mappings were created:
+			Based on which chords and chord types were in the song (see <a href="mod1-art.html">artistic documentation</a> for more information), the following mappings were created:
 		</p>
 		<table>
 			<tr>
@@ -86,7 +86,7 @@
 			As the song is in the key of F, generally chordRoot increases as the chord gets higher from F, while chordModifier increases as the chord gets more complex. Within the <code>loop()</code> function, if there is a new chord, a new color is computed by having chordRoot map to a red value, chordModifier map to a green value, and a 5-bit random number determine the blue value, as defined in the <a href="https://learn.adafruit.com/adafruit-gfx-graphics-library">Adafruit GFX Library</a>. For every new chord, this new color is written to the screen while every new chord or word updates the corresponding values on the screen. The len field in the struct is then used to delay the loop by the appropriate amount of the song (14 milliseconds are subtracted to take into account the time it takes to rewrite onto the screen although this may have to be altered for each specific device).
 		</p>
 		<h2>Generating Song Array</h2>
-		<p>While the first few elements of the struct were added manually, this ultimately proved to be tedious. As such, the song file was added into Logic Pro (Garageband or other free alternatives would suffice). I then moved the cursor right before each word and chord change and recorded the timestamp and corresponding information in a <a href="Module%201/Saturday.txt">tab-separated text file</a>. I then wrote this <a href="Module%201/mod1.py">Python script</a> that parsed the text file and outputted the correct struct array to standard out, which could then be copied into the Arduino sketch for ease of use. While this script takes into account Logic's timecode structure of minute:second:1/25th second.1/80th second, the script could be easily modified to take into account other softwares' timecode structure.</p>
+		<p>While the first few elements of the struct were added manually, this ultimately proved to be tedious. As such, the song file was added into Logic Pro (Garageband or other free alternatives would suffice). I then moved the cursor right before each word and chord change and recorded the timestamp and corresponding information in a <a href="Saturday.txt">tab-separated text file</a>. I then wrote this <a href="mod1.py">Python script</a> that parsed the text file and outputted the correct struct array to standard out, which could then be copied into the Arduino sketch for ease of use. While this script takes into account Logic's timecode structure of minute:second:1/25th second.1/80th second, the script could be easily modified to take into account other softwares' timecode structure.</p>
 		<h2>Flashing and Running Code</h2>
 		<p>
 			Using the Arduino IDE, clicking the Upload button will send the sketch to the device. The /dev/cu.wchusbserial port should be selected if using MacOS as discussed in the driver link above.
