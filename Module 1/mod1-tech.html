@@ -16,6 +16,10 @@
 		<p>
 			Generally, the setup of the ESP32 followed <a href="https://www.youtube.com/watch?v=adLUgmCJKnM">this</a> guide from Prof. Santolucito. However, users with a newer version of MacOS may need to install additional drivers, as discussed in <a href="https://github.com/Xinyuan-LilyGO/LilyGo-T-Call-SIM800/issues/139#issuecomment-904390716">this</a> thread.
 		</p>
+		<h2>Other Issues/Hardware Safety</h2>
+		<p>
+			Given what seemed to be a bad batch of Lithium-ion batteries, two small electrical fires were started, first when trying to connect the battery to the ESP32, and then when atttempting to strip the battery wires to solder a safer connector to them. As such, make sure to use components that are known to be safe or use USB power as described <a href="mod1-art.html">here</a>.
+		</p>
 		<h2>General Code Structure</h2>
 		<p>
 			As with most Arduino code, the <a href="Mod1.ino">Arduino sketch</a> includes <code>setup()</code> and <code>loop()</code> functions. The <code>setup()</code> function simply initializes the display, sets the rotation, fills the screen with white, and sets a random seed using an unused analog pin.
