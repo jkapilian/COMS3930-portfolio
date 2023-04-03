@@ -4,7 +4,7 @@
 		<link rel="stylesheet" href="styles.css">
 	</head>
 	<body>
-		<h1>Module 2: MIDI Joystick</h1>
+		<h1>Module 2: MIDI Joystick - Technical Documentation</h1>
 		<h2>Materials</h2>
 		<ul>
 			<li>TTGO T1 ESP32</li>
@@ -17,9 +17,10 @@
 		<p>At the highest level, this device sends MIDI signals using a joystick and button where one axis of the joystick controls pitch while the other controls MIDI velocity, a value from 0-127 that represents how hard a key was pressed on instruments such as keyboards. The button on the joystick is an analogue of pressing down a key on a keyboard while the standalone button acts as a sustain pedal, allowing notes to ring after being released by the joystick's button. Under the hood, the ESP32 recieves two sets of analog signals from each axis of the joystick and two sets of digital signals from the two buttons. These signals are sent to a computer via USB, where it is interpreted by a Python script and sent over the IAC Driver, an internal MacOS service that allows multiple processes to send MIDI signals to each other. These signals are then recieved by Mainstage and output as sounds.</p>
 		<h2>Wiring</h2>
 		<p>As shown, they joystick requires five wires: 2 for power and ground, 2 analog signals for X and Y, and 1 digital signal for Z (the button). The standalone button only requires 2 digital signals to complete the circuit. While the button used is a double pole switch, only one pole is needed for this project.</p>
+		<img src="Wiring.png">
 		<h2>Code Structure</h2>
 		<h3>Arduino Code</h3>
-		<p>The <a href="Module2/src/main.cpp">Arduino code</a> works by continually polling four signals: the X, Y, and Z values from the joystick, and one of the two signals from the button. It then sends each of the four values deliniated by tabs over the serial por over USB.</p>
+		<p>The <a href="Module2/src/main.cpp">Arduino code</a> works by continually polling four signals every 500ms: the X, Y, and Z values from the joystick, and one of the two signals from the button. It then sends each of the four values deliniated by tabs over the serial por over USB.</p>
 		<h3>Python Code</h3>
 		<p>Using the <code>pyserial</code> library, the <a href="Module2/src/main.py">Python script</a> reads and parses each line of signal values. Rather than using the joystick values directly to map to MIDI pitch and velocity, the script uses these values as a rate of change for a smoother user experience. Calibration values are stored as constants of the joystick's X and Y coordinates in its resting position, although they may have to be changed for each specific joystick. Then, using the <code>mido</code> library, the Python script then sends corresponding MIDI signals (Note on signal for when the joystick is pressed, note off when it is realeased, sustain on when the button is pressed, sustain off when it is released) through the IAC Driver to be interpreted by Mainstage. As the parity of the signals appeared to be switched, the Python script interprets 0 as on and 1 as off for both buttons.</p>
 		<h3>About the IAC Driver</h3>
@@ -33,15 +34,22 @@
 			<li>Enable the IAC Driver by opening up Audio MIDI Setup (found in Applications/Utilities).</li>
 			<ol>
 				<li>Double click on IAC Driver.</li>
+				<br>
+				<img src="MIDI.png">
 				<li>Check the box that says "Device is online".</li>
+				<br>
+				<img src="IAC.png">
 			</ol>
 			<li>Install the <a href="https://github.com/Xinyuan-LilyGO/LilyGo-T-Call-SIM800/issues/139#issuecomment-904390716">ESP32 Driver</a> as needed.</li>
-			<li>Open the project stored in the <a href="Module2">project directory</a> in VSCode.</li>
+			<li>Open the project stored in the <a href="https://github.com/jkapilian/COMS3930-portfolio/tree/main/Module%202">project directory</a> in VSCode.</li>
 			<li>Flash the code onto the ESP32 by pressing the Upload button on the bottom of VSCode (should appear after installing PlatformIO).</li>
+			<br>
+			<img src="Platform.png">
 			<li>Unplug your ESP32 and wire up your joystick and button as shown above (wiring should occur after as code often does not flash properly when peripherals are attached to the GPIO pins).</li>
 			<li>Reconnect ESP32 via USB to computer.</li>
 			<li>Run Python script.</li>
 			<li>Play around with the MIDI controller and enjoy!</li>
+			<li>Feel free to design your own enclosure to your heart's desire!</li>
 		</ol>
 	</body>
 </html>
