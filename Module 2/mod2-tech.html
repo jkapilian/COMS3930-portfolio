@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<title>Module 2 Technical Documentation</title>
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<h1>Module 2: MIDI Joystick</h1>
+		<h2>Materials</h2>
+		<ul>
+			<li>TTGO T1 ESP32</li>
+			<li>USB Cable</li>
+			<li>Mac with VSCode with PlatformIO installed</li>
+			<li>Code hosted in <a href="https://github.com/jkapilian/COMS3930-portfolio/tree/main/Module%202/Module2">this GitHub repo</a></li>
+			<li>Mainstage or other software that accepts MIDI input</li>
+		</ul>
+		<h2>High-Level Design</h2>
+		<p>At the highest level, this device sends MIDI signals using a joystick and button where one axis of the joystick controls pitch while the other controls MIDI velocity, a value from 0-127 that represents how hard a key was pressed on instruments such as keyboards. The button on the joystick is an analogue of pressing down a key on a keyboard while the standalone button acts as a sustain pedal, allowing notes to ring after being released by the joystick's button. Under the hood, the ESP32 recieves two sets of analog signals from each axis of the joystick and two sets of digital signals from the two buttons. These signals are sent to a computer via USB, where it is interpreted by a Python script and sent over the IAC Driver, an internal MacOS service that allows multiple processes to send MIDI signals to each other. These signals are then recieved by Mainstage and output as sounds.</p>
+		<h2>Wiring</h2>
+		<p>As shown, they joystick requires five wires: 2 for power and ground, 2 analog signals for X and Y, and 1 digital signal for Z (the button). The standalone button only requires 2 digital signals to complete the circuit. While the button used is a double pole switch, only one pole is needed for this project.</p>
+		<h2>Code Structure</h2>
+		<h3>Arduino Code</h3>
+		<p>The <a href="Module2/src/main.cpp">Arduino code</a> works by continually polling four signals: the X, Y, and Z values from the joystick, and one of the two signals from the button. It then sends each of the four values deliniated by tabs over the serial por over USB.</p>
+		<h3>Python Code</h3>
+		<p>Using the <code>pyserial</code> library, the <a href="Module2/src/main.py">Python script</a> reads and parses each line of signal values. Rather than using the joystick values directly to map to MIDI pitch and velocity, the script uses these values as a rate of change for a smoother user experience. Calibration values are stored as constants of the joystick's X and Y coordinates in its resting position, although they may have to be changed for each specific joystick. Then, using the <code>mido</code> library, the Python script then sends corresponding MIDI signals (Note on signal for when the joystick is pressed, note off when it is realeased, sustain on when the button is pressed, sustain off when it is released) through the IAC Driver to be interpreted by Mainstage. As the parity of the signals appeared to be switched, the Python script interprets 0 as on and 1 as off for both buttons.</p>
+		<h3>About the IAC Driver</h3>
+		<p>The IAC Driver is a free service provided in MacOS that allows for interprocess communication of MIDI signals. While I discovered it mainly by happenstance (had I not found it getting signals into Mainstage would likely have not been feasible) it is fairly intuitive to use as described in <a href="https://support.apple.com/guide/audio-midi-setup/transfer-midi-information-between-apps-ams1013/mac">this documentation</a>. See below for detailed instructions on how to use it in the context of this project. Mainstage is an Apple software that allows users to program different sounds for use by a MIDI keyboard. As such, with this setup the Arduino-Python script combo emulates a MIDI controller. Once set up, an basic Mainstage project with a keyboard in it (or a Garageband project with a software instrument) will recieve signals sent by the Python script and will play the corresponding notes.</p>
+		<h2>Enclosure</h2>
+		The enclosure is designed with cardboard with a vinyl finish on the sides. More information about the enclosure and the overall artistic motivation can be found <a href="mod2-art.html">here</a>.
+		<h2>Running the Installation</h2>
+		<ol>
+			<li>Download VSCode onto a Mac and install the <a href="https://platformio.org/install/ide?install=vscode">PlatformIO extension</a>.</li>
+			<li>Install Mainstage or any other software that can take MIDI signals and produce sounds and open a project with a patch sound of your choosing.</li>
+			<li>Enable the IAC Driver by opening up Audio MIDI Setup (found in Applications/Utilities).</li>
+			<ol>
+				<li>Double click on IAC Driver.</li>
+				<li>Check the box that says "Device is online".</li>
+			</ol>
+			<li>Install the <a href="https://github.com/Xinyuan-LilyGO/LilyGo-T-Call-SIM800/issues/139#issuecomment-904390716">ESP32 Driver</a> as needed.</li>
+			<li>Open the project stored in the <a href="Module2">project directory</a> in VSCode.</li>
+			<li>Flash the code onto the ESP32 by pressing the Upload button on the bottom of VSCode (should appear after installing PlatformIO).</li>
+			<li>Unplug your ESP32 and wire up your joystick and button as shown above (wiring should occur after as code often does not flash properly when peripherals are attached to the GPIO pins).</li>
+			<li>Reconnect ESP32 via USB to computer.</li>
+			<li>Run Python script.</li>
+			<li>Play around with the MIDI controller and enjoy!</li>
+		</ol>
+	</body>
+</html>
