@@ -1,0 +1,17 @@
+<html>
+	<head>
+		<title>Final Project Artistic Documentation</title>
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<h1>Final Project: Audio to MIDI Converter - Blog Post</h1>
+		<h2>General Motivation</h2>
+		<p>Unlike previous projects, we were free to implement any type of embedded device we were interested in based on the skills acquired throughout the semester.</p>
+		<h2>Specific Project Motivation</h2>
+		<p>As discussed in Module 2, MIDI controllers have become extremely commonplace and a necessity in modern music-making for many. While my Casio SA-46 is nice and portable, it only outputs analog audio data but does not function as a MIDI controller. Similarly portable controllers would cost 2-3 times the Casio's price. However, as Module 2 demonstrated the ability of an Arduino board to send MIDI data to my Mac, the ability to fully convert the Casio into a MIDI controller seemed appealing. As such, my goal was to create a device that could transform the Casio's audio signals into MIDI data. For details on how this was accomplished, see the project's <a href="https://github.com/jkapilian/audiomidi">README</a>.</p>
+		<h2>Enclosure</h2>
+		<p>My general vision of this project was to have the logic on the board to function as a black box that a musician could plug their instrument into and get MIDI data out of. As such, the enclosure was designed to be as minimal in size as possible, wrapping around the footprint of the board itself. Additionally, while the board has many ports to plug into, the only cutouts provided are for the ports used; namely the line in and USB out. This along with the laser cut box help to give the general feel of a black-box product that one can simply "plug and play" into.</p>
+		<h2>Usage</h2>
+		<p>Once the code is flashed onto the board, the device can simply be plugged into an instrument and computer. Once the Python script is running, a user can simply play notes and see the result in their MIDI software. However, given the pain point of running an additional Python script that functions as a driver, I would be interested in creating a future iteration of this device that runs on a board that supports the USBMIDI Library, making it truly a "plug and play" device. Additionally, having more interaction, potentially with a knob allowing certain parameters to be altered at runtime such as the cutoff magnitude would allow more interoperability with different instruments without the need to reflash code.</p>
+	</body>
+</html>
